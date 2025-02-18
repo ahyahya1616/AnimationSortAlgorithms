@@ -1,76 +1,16 @@
-function quickSortASC(arr,left=0,right=arr.length-1){
-    if (left >= right) 
-        return arr;
-    let pivotIndex = partitionASC(arr,left,right);
-    quickSortASC(arr,left,pivotIndex-1);
-    quickSortASC(arr,pivotIndex+1,right);
-    return arr;
-    
-}
-
-function partitionASC(arr,left,right){
-    let i=left+1;
-    let j=right;
-    while(i <= j){
-        if(arr[i] < arr[left])
-            i++;
-        else if(arr[j] > arr[left])
-            j--;
-        else{
-            [arr[i],arr[j]]=[arr[j],arr[i]];
-            i++;
-            j--;
-        }
-        }
-        [arr[left], arr[j]] = [arr[j], arr[left]];
-        return j;
-}
-
-function quickSortDESC(arr,left=0,right=arr.length-1){
-    if (left >= right) 
-        return arr;
-    let pivotIndex = partitionDESC(arr,left,right);
-    quickSortDESC(arr,left,pivotIndex-1);
-    quickSortDESC(arr,pivotIndex+1,right);
-    return arr;
-    
-}
-
-function partitionDESC(arr,left,right){
-    let i=left+1;
-    let j=right;
-    while(i <= j){
-        if(arr[i] > arr[left])
-            i++;
-        else if(arr[j] < arr[left])
-            j--;
-        else{
-            [arr[i],arr[j]]=[arr[j],arr[i]];
-            i++;
-            j--;
-        }
-        }
-        [arr[left], arr[j]] = [arr[j], arr[left]];
-        return j;
-}
-
-
 async function animatedQuickSortASC(arr, left = 0, right = arr.length - 1) {
     if (left >= right) {
         return arr;
     }
     
-    // Marquer la partie active du tableau
     const activeRange = Array.from({length: right - left + 1}, (_, i) => i + left);
     await updateBars(arr, {
         comparing: activeRange,
         explanation: `Tri rapide sur la partie [${left}..${right}]`
     });
     
-    // Effectuer le partitionnement
     let pivotIndex = await animatedPartitionASC(arr, left, right);
     
-    // Marquer le pivot comme placé
     const sortedSoFar = [];
     sortedSoFar.push(pivotIndex);
     await updateBars(arr, {
@@ -79,7 +19,7 @@ async function animatedQuickSortASC(arr, left = 0, right = arr.length - 1) {
         explanation: `Pivot ${arr[pivotIndex]} placé à la position ${pivotIndex}`
     });
     
-    // Trier récursivement les sous-tableaux
+    
     await animatedQuickSortASC(arr, left, pivotIndex - 1);
     await animatedQuickSortASC(arr, pivotIndex + 1, right);
     
@@ -87,7 +27,6 @@ async function animatedQuickSortASC(arr, left = 0, right = arr.length - 1) {
 }
 
 async function animatedPartitionASC(arr, left, right) {
-    // Choisir le pivot (premier élément)
     const pivot = arr[left];
     await updateBars(arr, {
         pivot: [left],
@@ -98,7 +37,6 @@ async function animatedPartitionASC(arr, left, right) {
     let j = right;
     
     while (i <= j) {
-        // Trouver un élément plus grand que le pivot depuis la gauche
         while (i <= j && arr[i] <= pivot) {
             await updateBars(arr, {
                 comparing: [i, left],
@@ -116,7 +54,6 @@ async function animatedPartitionASC(arr, left, right) {
             });
         }
         
-        // Trouver un élément plus petit que le pivot depuis la droite
         while (i <= j && arr[j] > pivot) {
             await updateBars(arr, {
                 comparing: [j, left],
@@ -133,8 +70,7 @@ async function animatedPartitionASC(arr, left, right) {
                 explanation: `Trouvé ${arr[j]} <= ${pivot} à l'index ${j}`
             });
         }
-        
-        // Échanger les éléments si nécessaire
+
         if (i < j) {
             await updateBars(arr, {
                 swapping: [i, j],
@@ -142,7 +78,6 @@ async function animatedPartitionASC(arr, left, right) {
                 explanation: `Échange des éléments ${arr[i]} et ${arr[j]}`
             });
             
-            // Effectuer l'échange
             [arr[i], arr[j]] = [arr[j], arr[i]];
             
             await updateBars(arr, {
@@ -156,7 +91,6 @@ async function animatedPartitionASC(arr, left, right) {
         }
     }
     
-    // Placer le pivot à sa position finale
     await updateBars(arr, {
         swapping: [left, j],
         pivot: [left],
@@ -178,17 +112,14 @@ async function animatedQuickSortDESC(arr, left = 0, right = arr.length - 1) {
         return arr;
     }
     
-    // Marquer la partie active du tableau
     const activeRange = Array.from({length: right - left + 1}, (_, i) => i + left);
     await updateBars(arr, {
         comparing: activeRange,
         explanation: `Tri rapide sur la partie [${left}..${right}]`
     });
     
-    // Effectuer le partitionnement
     let pivotIndex = await animatedPartitionDESC(arr, left, right);
     
-    // Marquer le pivot comme placé
     const sortedSoFar = [];
     sortedSoFar.push(pivotIndex);
     await updateBars(arr, {
@@ -197,7 +128,6 @@ async function animatedQuickSortDESC(arr, left = 0, right = arr.length - 1) {
         explanation: `Pivot ${arr[pivotIndex]} placé à la position ${pivotIndex}`
     });
     
-    // Trier récursivement les sous-tableaux
     await animatedQuickSortDESC(arr, left, pivotIndex - 1);
     await animatedQuickSortDESC(arr, pivotIndex + 1, right);
     
@@ -205,7 +135,7 @@ async function animatedQuickSortDESC(arr, left = 0, right = arr.length - 1) {
 }
 
 async function animatedPartitionDESC(arr, left, right) {
-    // Choisir le pivot (premier élément)
+
     const pivot = arr[left];
     await updateBars(arr, {
         pivot: [left],
@@ -216,7 +146,6 @@ async function animatedPartitionDESC(arr, left, right) {
     let j = right;
     
     while (i <= j) {
-        // Trouver un élément plus petit que le pivot depuis la gauche
         while (i <= j && arr[i] >= pivot) {
             await updateBars(arr, {
                 comparing: [i, left],
@@ -234,7 +163,6 @@ async function animatedPartitionDESC(arr, left, right) {
             });
         }
         
-        // Trouver un élément plus grand que le pivot depuis la droite
         while (i <= j && arr[j] < pivot) {
             await updateBars(arr, {
                 comparing: [j, left],
@@ -252,7 +180,6 @@ async function animatedPartitionDESC(arr, left, right) {
             });
         }
         
-        // Échanger les éléments si nécessaire
         if (i < j) {
             await updateBars(arr, {
                 swapping: [i, j],
@@ -260,7 +187,6 @@ async function animatedPartitionDESC(arr, left, right) {
                 explanation: `Échange des éléments ${arr[i]} et ${arr[j]}`
             });
             
-            // Effectuer l'échange
             [arr[i], arr[j]] = [arr[j], arr[i]];
             
             await updateBars(arr, {
@@ -274,7 +200,6 @@ async function animatedPartitionDESC(arr, left, right) {
         }
     }
     
-    // Placer le pivot à sa position finale
     await updateBars(arr, {
         swapping: [left, j],
         pivot: [left],

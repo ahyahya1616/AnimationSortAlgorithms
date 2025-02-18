@@ -1,50 +1,9 @@
-async function selectionSortASC(arr){
-    for(let i=0 ; i< arr.length ;i++){
-        let M=i;
-       
-        for(let j=i+1; j< arr.length ; j++){
-            
-            if(arr[M]>arr[j]){
-                M=j;
-            }
-           
-        }
-        if(M!=i){
-        
-        tmp=arr[M];
-        arr[M]=arr[i];
-        arr[i]=tmp;
-        
-        }
-    }
-     
-}
-
-function selectionSortDES(arr){
-    for(let i=0 ; i< arr.length ;i++){
-        let M=i;
-        for(let j=i+1; j< arr.length ; j++){
-            if(arr[M]<arr[j]){
-                M=j;
-            }
-        }
-        if(M!=i){
-        tmp=arr[M];
-        arr[M]=arr[i];
-        arr[i]=tmp;
-        }
-   }
-   return arr;
-}
-
-
 async function animatedSelectionSortASC(arr) {
     const sortedIndices = [];
     
     for (let i = 0; i < arr.length; i++) {
         let minIndex = i;
         
-        // Afficher l'élément actuel
         await updateBars(arr, {
             comparing: [i],
             sorted: sortedIndices,
@@ -52,7 +11,6 @@ async function animatedSelectionSortASC(arr) {
         });
         
         for (let j = i + 1; j < arr.length; j++) {
-            // Comparer avec chaque élément suivant
             await updateBars(arr, {
                 comparing: [minIndex, j],
                 sorted: sortedIndices,
@@ -61,7 +19,6 @@ async function animatedSelectionSortASC(arr) {
             
             if (arr[j] < arr[minIndex]) {
                 minIndex = j;
-                // Afficher le nouveau minimum
                 await updateBars(arr, {
                     comparing: [minIndex],
                     sorted: sortedIndices,
@@ -71,19 +28,17 @@ async function animatedSelectionSortASC(arr) {
         }
         
         if (minIndex !== i) {
-            // Afficher l'échange à effectuer
             await updateBars(arr, {
                 swapping: [i, minIndex],
                 sorted: sortedIndices,
                 explanation: `Échange des éléments ${arr[i]} et ${arr[minIndex]}`
             });
             
-            // Effectuer l'échange
+            
             let temp = arr[i];
             arr[i] = arr[minIndex];
             arr[minIndex] = temp;
             
-            // Afficher après l'échange
             await updateBars(arr, {
                 comparing: [i],
                 sorted: sortedIndices,
@@ -91,7 +46,6 @@ async function animatedSelectionSortASC(arr) {
             });
         }
         
-        // Marquer l'élément comme trié
         sortedIndices.push(i);
         await updateBars(arr, {
             sorted: sortedIndices,
@@ -108,7 +62,6 @@ async function animatedSelectionSortDESC(arr) {
     for (let i = 0; i < arr.length; i++) {
         let maxIndex = i;
         
-        // Afficher l'élément actuel
         await updateBars(arr, {
             comparing: [i],
             sorted: sortedIndices,
@@ -116,7 +69,7 @@ async function animatedSelectionSortDESC(arr) {
         });
         
         for (let j = i + 1; j < arr.length; j++) {
-            // Comparer avec chaque élément suivant
+            
             await updateBars(arr, {
                 comparing: [maxIndex, j],
                 sorted: sortedIndices,
@@ -125,7 +78,6 @@ async function animatedSelectionSortDESC(arr) {
             
             if (arr[j] > arr[maxIndex]) {
                 maxIndex = j;
-                // Afficher le nouveau maximum
                 await updateBars(arr, {
                     comparing: [maxIndex],
                     sorted: sortedIndices,
@@ -135,19 +87,17 @@ async function animatedSelectionSortDESC(arr) {
         }
         
         if (maxIndex !== i) {
-            // Afficher l'échange à effectuer
+            
             await updateBars(arr, {
                 swapping: [i, maxIndex],
                 sorted: sortedIndices,
                 explanation: `Échange des éléments ${arr[i]} et ${arr[maxIndex]}`
             });
             
-            // Effectuer l'échange
             let temp = arr[i];
             arr[i] = arr[maxIndex];
             arr[maxIndex] = temp;
             
-            // Afficher après l'échange
             await updateBars(arr, {
                 comparing: [i],
                 sorted: sortedIndices,
@@ -155,7 +105,6 @@ async function animatedSelectionSortDESC(arr) {
             });
         }
         
-        // Marquer l'élément comme trié
         sortedIndices.push(i);
         await updateBars(arr, {
             sorted: sortedIndices,

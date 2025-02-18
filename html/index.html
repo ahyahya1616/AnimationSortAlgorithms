@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Tri</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+    <h1>Visualisation des Algorithmes de Tri</h1>
+
+    <!-- 🎛️ Panneau de contrôle -->
+    <div id="controls">
+        <label for="sizeInput">Taille du tableau :</label>
+        <input type="range" id="sizeInput" min="5" max="50" value="20">
+        <span id="sizeValue">20</span>
+
+        <label for="algoSelect">Algorithme :</label>
+        <select id="algoSelect">
+            <option value="selection">Tri par sélection</option>
+            <option value="bubble">Tri à bulles</option>
+            <option value="quick">Tri rapide</option>
+            <option value="merge">Tri fusion</option>
+            <option value="topological">Tri topologique</option>
+        </select>
+
+        <label for="orderSelect">Ordre :</label>
+        <select id="orderSelect">
+            <option value="asc">Croissant</option>
+            <option value="desc">Décroissant</option>
+        </select>
+
+        <button id="sortButton">Lancer le tri</button>
+    </div>
+
+    <!-- 📊 Zone d'affichage des barres -->
+    <div id="bars-container"></div>
+
+    <script src="../animations/animations.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/selectionSort.js"></script>
+    <script src="../js/bubbleSort.js"></script>
+    <script src="../js/quickSort.js"></script>
+    <script src="../js/mergeSort.js"></script>
+    <script src="../js/topologicalSort.js"></script>
+</body>
+</html>
